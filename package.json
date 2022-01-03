@@ -1,0 +1,22 @@
+{
+  "name": "is-it-raining-bot",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "Telegram.js",
+  "scripts": {
+    "start": "node Telegram.js",
+    "dev":"nodemon Telegram.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "firebase": "^9.6.1",
+    "node-fetch": "^3.1.0",
+    "node-telegram-bot-api": "^0.56.0",
+    "nodemon": "^2.0.15"
+  }
+}
