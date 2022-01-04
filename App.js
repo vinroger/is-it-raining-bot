@@ -119,11 +119,10 @@ async function fetchId(){
 
 async function sendMessage(){
     let userId = await fetchId();
-    //console.log(userId);
-    userId.forEach((id)=>{
-        if(!id) return;
-       // console.log(id);
-        let message = "**It is raining now!**\nDon't forget to close your window!\n\nThe reading is as described below:\n" +
+    let message = ""; 
+    let boolIsRaining = await isRaining();
+    if(boolIsRaining){
+        message = "**It is raining now!**\nDon't forget to close your window!\n\nThe reading is as described below:\n" +
         "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
         "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
         "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
@@ -134,9 +133,26 @@ async function sendMessage(){
         "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
 
         "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
-        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 2 minutes."; 
+        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 2 minutes.";
+    }
+    else {
+        message = "It is not raining now.\n\nThe reading is as described below:\n" +
+        "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
+        "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
+        "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
+        "Sensor S94 (Pasir Ris St 51)       : "+ stationReading.S94 +"\n" +
+        "Sensor S84 (Simei Avenue)          : "+ stationReading.S84 +"\n" +
+
+        "Sensor S212 (Bedok S Road)         : "+ stationReading.S212 +"\n" +
+        "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
+
+        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
+        "\n\nThank you!";
+    }
+    //console.log(userId);
+    userId.forEach((id)=>{
+        if(!id) return;
         telebot.sendMessage(id, message).catch((err)=>{return;});
-        
     });
 }
 

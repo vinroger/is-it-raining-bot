@@ -78,7 +78,7 @@ const updatePrivateUser = async (msg)=> {
         timestamp: msg.date,
         replied:false
     };
-    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weater update now.").catch((err)=>{return;});
+    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weather update now.").catch((err)=>{return;});
     await addDoc(usersCollectionRef, msgdata);
 }   
 const updateGroup = async (msg)=> {
@@ -99,19 +99,42 @@ const updateGroup = async (msg)=> {
         sender_username: msg.from.username,
         timestamp: msg.date,
     };
-    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weater update now.").catch((err)=>{return;});
+    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weather update now.").catch((err)=>{return;});
 
     
     await addDoc(groupsCollectionRef, msgdata);
 }
+
+const handleError = async(msg, err) => {
+    let errMsg = "Error occurred in " + msg.chat.id
+    try {
+        bot.sendMessage(1707158311, "Error happened in " + msg.chat.id 
+        + msg.chat.first_name + " "
+        + msg.chat.last_name + " "
+        + msg.chat.username + " "
+        + msg.date + err)
+        .catch((err)=>{return;});
+    } catch {
+        bot.sendMessage(1707158311, "Error happened in " + msg.chat.id 
+        + msg.chat.title + " "
+        + msg.from.id + " "
+        + msg.from.first_name + " "+ msg.from.last_name + " " 
+        + msg.from.username
+        + msg.date + err)
+        .catch((err)=>{return;});
+    }
+    
+    bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
+    return;
+}
+
 bot.onText(/\/start/, async (msg, match) => {
     if(msg.chat.type==="group"){
         try{
             await updateGroup(msg);
             return;
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
-            return;
+            handleError(msg, err);
         }
         
     }
@@ -119,8 +142,7 @@ bot.onText(/\/start/, async (msg, match) => {
         try {
             await updatePrivateUser(msg);
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
-            return;
+            handleError(msg, err);
         }
         
     }
@@ -133,8 +155,7 @@ bot.onText(/\/rain/, async (msg, match) => {
             await updateGroup(msg);
             return;
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
-            return;
+            handleError(msg, err);
         }
         
     }
@@ -142,9 +163,8 @@ bot.onText(/\/rain/, async (msg, match) => {
         try {
             await updatePrivateUser(msg);
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
-
-            return;
+            handleError(msg, err);
+            
         }
         
     }
