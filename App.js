@@ -29,6 +29,9 @@ let stationReading = {
     S207 : 0,
     S106 : 0,
     S94 : 0,
+    S84: 0,
+    S212: 0,
+    S208: 0,
 };
 let rainSwitch = false;
 let jobInterval = null;
@@ -45,6 +48,9 @@ async function isRaining(){
         S207 : 0,
         S106: 0,
         S94: 0,
+        S84: 0,
+        S212: 0,
+        S208: 0,
     };
     data.items[0].readings.forEach(function(reading){
         if(reading.station_id === "S224" ) {
@@ -67,6 +73,18 @@ async function isRaining(){
             boolCheckRain = Boolean(boolCheckRain || reading.value);
             stationReading.S94 = reading.value;
         }
+        if(reading.station_id === "S84"){
+            boolCheckRain = Boolean(boolCheckRain || reading.value);
+            stationReading.S84 = reading.value;
+        }
+        if(reading.station_id === "S212"){
+            boolCheckRain = Boolean(boolCheckRain || reading.value);
+            stationReading.S212 = reading.value;
+        }
+        if(reading.station_id === "S208"){
+            boolCheckRain = Boolean(boolCheckRain || reading.value);
+            stationReading.S208 = reading.value;
+        }
     })
     return boolCheckRain;
 }
@@ -78,7 +96,7 @@ async function informRain(){
     catch (err){
         console.log(err);
     }
-    jobInterval=setInterval(sendMessage, 300000);
+    jobInterval=setInterval(sendMessage, 3000);
 }
 
 async function fetchId(){
@@ -109,8 +127,13 @@ async function sendMessage(){
         "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
         "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
         "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
-        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
         "Sensor S94 (Pasir Ris St 51)       : "+ stationReading.S94 +"\n" +
+        "Sensor S84 (Simei Avenue)          : "+ stationReading.S84 +"\n" +
+
+        "Sensor S212 (Bedok S Road)         : "+ stationReading.S212 +"\n" +
+        "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
+
+        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
         "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 5 minutes."; 
         telebot.sendMessage(id, message).catch((err)=>{return;});
         
