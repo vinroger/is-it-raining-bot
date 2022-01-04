@@ -105,13 +105,13 @@ async function sendMessage(){
     userId.forEach((id)=>{
         if(!id) return;
        // console.log(id);
-        let message = "It is raining now!\n\nThe reading is as described below:\n" +
-        "Sensor S24  (Upper Changi Rd N): "+ stationReading.S24 +"\n" +
-        "Sensor S224 (Changi Airport)   : "+ stationReading.S224 +"\n" +
-        "Sensor S207 (Singapore Expo)   : "+ stationReading.S207 +"\n" +
-        "Sensor S106 (Pulau Ubin)       : "+ stationReading.S106 +"\n" +
-        "Sensor S94 (Pasir Ris St 51)   : "+ stationReading.S94 +"\n" +
-        "\n If you closed your window already send /stop \n You will be receiving notifications again in the next rain every 5 minutes."; 
+        let message = "**It is raining now!**\nDon't forget to close your window!\n\nThe reading is as described below:\n" +
+        "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
+        "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
+        "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
+        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
+        "Sensor S94 (Pasir Ris St 51)       : "+ stationReading.S94 +"\n" +
+        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 5 minutes."; 
         telebot.sendMessage(id, message).catch((err)=>{return;});
         
     });

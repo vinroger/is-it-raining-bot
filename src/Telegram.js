@@ -63,7 +63,7 @@ const checkGroupExist = async (msg)=> {
 const updatePrivateUser = async (msg)=> {
     let isExist = await checkExist(msg);
     if(isExist){
-        bot.sendMessage(msg.chat.id, "Hmm... Looks like you already sent '/start' or '/rain'. You will receiving notifications when it is raining around SUTD!").catch((err)=>{return;});;
+        bot.sendMessage(msg.chat.id, "Hmm... Looks like you already sent '/start' or '/rain'. You will receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
         return;
     }
     const chatId = msg.chat.id;
@@ -76,14 +76,14 @@ const updatePrivateUser = async (msg)=> {
         timestamp: msg.date,
         replied:false
     };
-    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});;
+    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
     await addDoc(usersCollectionRef, msgdata);
 }   
 const updateGroup = async (msg)=> {
     let isExist = await checkGroupExist(msg);
     if(isExist){
 
-        bot.sendMessage(msg.chat.id, "Hmm... Looks like your group already sent '/start'. Your group will receiving notifications when it is raining around SUTD!").catch((err)=>{return;});;
+        bot.sendMessage(msg.chat.id, "Hmm... Looks like your group already sent '/start'. Your group will receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
 
         return;
     }
@@ -97,7 +97,7 @@ const updateGroup = async (msg)=> {
         sender_username: msg.from.username,
         timestamp: msg.date,
     };
-    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});;
+    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
 
     
     await addDoc(groupsCollectionRef, msgdata);
@@ -108,7 +108,7 @@ bot.onText(/\/start/, async (msg, match) => {
             await updateGroup(msg);
             return;
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});;
+            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
             return;
         }
         
@@ -117,7 +117,7 @@ bot.onText(/\/start/, async (msg, match) => {
         try {
             await updatePrivateUser(msg);
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});;
+            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
             return;
         }
         
@@ -130,7 +130,7 @@ bot.onText(/\/rain/, async (msg, match) => {
             await updateGroup(msg);
             return;
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});;
+            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
             return;
         }
         
@@ -139,7 +139,7 @@ bot.onText(/\/rain/, async (msg, match) => {
         try {
             await updatePrivateUser(msg);
         } catch (err){
-            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});;
+            bot.sendMessage(msg.chat.id, "Sorry, an error occured. Please contact @vinroger1 for fix.").catch((err)=>{return;});
 
             return;
         }
@@ -171,6 +171,7 @@ bot.onText(/\/stop/, async (msg, match) => {
             
         });
     }
+    bot.sendMessage(msg.chat.id, "Stopped notifications.\nYour next update will start if it starts raining again.\nIf you wish to continue receiving update send /continue.").catch((err)=>{return;});
 });
 bot.onText(/\/continue/, async (msg, match) => {
     if(msg.chat.type==="group"){
@@ -197,6 +198,7 @@ bot.onText(/\/continue/, async (msg, match) => {
             
         });
     }
+    bot.sendMessage(msg.chat.id, "Continued notifications.\nIf you wish to stop receiving update until the next rain send /stop.").catch((err)=>{return;});
 });
 
 
