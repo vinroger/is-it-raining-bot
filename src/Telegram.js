@@ -73,7 +73,7 @@ const updatePrivateUser = async (msg)=> {
     let msgdata = { 
         chatId: msg.chat.id,
         first_name: msg.chat.first_name, 
-        last_name: msg.chat.last_name, 
+        last_name: msg.chat.last_name? msg.chat.last_name: "N/A", 
         username: msg.chat.username, 
         timestamp: msg.date,
         replied:false
@@ -95,7 +95,7 @@ const updateGroup = async (msg)=> {
         chatId: msg.chat.id,
         title: msg.chat.title,
         sender: msg.from.id,
-        sender_name: msg.from.first_name +" " + msg.from.last_name,
+        sender_name: msg.from.first_name +" " + (msg.from.last_name? msg.from.last_name: "N/A"),
         sender_username: msg.from.username,
         timestamp: msg.date,
     };
