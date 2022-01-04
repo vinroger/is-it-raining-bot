@@ -96,7 +96,7 @@ async function informRain(){
     catch (err){
         console.log(err);
     }
-    jobInterval=setInterval(sendMessage, 3000);
+    jobInterval=setInterval(sendMessage, 300000);
 }
 
 async function fetchId(){
