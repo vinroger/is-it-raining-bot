@@ -39,7 +39,7 @@ let checkRainInterval= setInterval(checkRain, 3000);
 
 async function isRaining(){
     let req = await fetch('https://api.data.gov.sg/v1/environment/rainfall');
-    //let req = await fetch('https://api.data.gov.sg/v1/environment/rainfall?date_time=2021-11-27T18%3A00%3A00');
+    //let req = await fetch('https://api.data.gov.sg/v1/environment/rainfall?date_time=2022-01-04T18%3A30%3A00');
     let data = await req.json()
     let boolCheckRain = false;
     stationReading = {
@@ -175,6 +175,7 @@ async function sendSingle(chatId){
 }
 
 async function resetReplied(){
+    //console.log("reply reset!");
     const userData = await getDocs(orderedUsersCollectionRef);
     userData.docs.forEach( async (eachDoc)=> {
         const userDoc = doc(db, "users", eachDoc.id);
@@ -193,6 +194,8 @@ async function resetReplied(){
 async function checkRain(){
     //console.log(rainSwitch);
     let boolIsRaining = await isRaining();
+    //let date = new Date();
+    //console.log("rain", boolIsRaining, "switch", rainSwitch, date.getMinutes(), date.getSeconds());
     //boolIsRaining = true;
     if (boolIsRaining){
         if(rainSwitch) return;
@@ -205,6 +208,7 @@ async function checkRain(){
     else{
         if(rainSwitch) {
             rainSwitch = false;
+            clearInterval(jobInterval);
             resetReplied();
         }
         else{
