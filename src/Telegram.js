@@ -18,6 +18,8 @@ import {
 import { ref, getDownloadURL, uploadBytesResumable, deleteObject } from "firebase/storage";
 import TelegramBot from 'node-telegram-bot-api';
 import dotenv from "dotenv";
+import { sendSingle } from "../App.js";
+
 
 //TELEGRAM BOT
 dotenv.config();
@@ -76,7 +78,7 @@ const updatePrivateUser = async (msg)=> {
         timestamp: msg.date,
         replied:false
     };
-    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
+    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weater update now.").catch((err)=>{return;});
     await addDoc(usersCollectionRef, msgdata);
 }   
 const updateGroup = async (msg)=> {
@@ -97,7 +99,7 @@ const updateGroup = async (msg)=> {
         sender_username: msg.from.username,
         timestamp: msg.date,
     };
-    bot.sendMessage(msg.chat.id, "Hi! You will start receiving notifications when it is raining around SUTD!").catch((err)=>{return;});
+    bot.sendMessage(msg.chat.id, "Hi there!\nYou will start receiving notifications when it is raining around SUTD!\n\n/check to request the weater update now.").catch((err)=>{return;});
 
     
     await addDoc(groupsCollectionRef, msgdata);
@@ -122,6 +124,7 @@ bot.onText(/\/start/, async (msg, match) => {
         }
         
     }
+    sendSingle(msg.chat.id);
 });
 
 bot.onText(/\/rain/, async (msg, match) => {
@@ -145,6 +148,7 @@ bot.onText(/\/rain/, async (msg, match) => {
         }
         
     }
+    sendSingle(msg.chat.id);
 });
 bot.onText(/\/stop/, async (msg, match) => {
     if(msg.chat.type==="group"){
@@ -199,6 +203,11 @@ bot.onText(/\/continue/, async (msg, match) => {
         });
     }
     bot.sendMessage(msg.chat.id, "Continued notifications.\nIf you wish to stop receiving update until the next rain send /stop.").catch((err)=>{return;});
+    sendSingle(msg.chat.id);
+});
+
+bot.onText(/\/check/, async (msg, match) => {
+    sendSingle(msg.chat.id);
 });
 
 

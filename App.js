@@ -134,10 +134,44 @@ async function sendMessage(){
         "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
 
         "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
-        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 5 minutes."; 
+        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 2 minutes."; 
         telebot.sendMessage(id, message).catch((err)=>{return;});
         
     });
+}
+
+async function sendSingle(chatId){
+    let message = ""; 
+    let boolIsRaining = await isRaining();
+    if(boolIsRaining){
+        message = "**It is raining now!**\nDon't forget to close your window!\n\nThe reading is as described below:\n" +
+        "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
+        "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
+        "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
+        "Sensor S94 (Pasir Ris St 51)       : "+ stationReading.S94 +"\n" +
+        "Sensor S84 (Simei Avenue)          : "+ stationReading.S84 +"\n" +
+
+        "Sensor S212 (Bedok S Road)         : "+ stationReading.S212 +"\n" +
+        "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
+
+        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
+        "\nIf you closed your window already send /stop. \nYou will be receiving notifications again in the next rain every 2 minutes.";
+    }
+    else {
+        message = "It is not raining now.\n\nThe reading is as described below:\n" +
+        "Sensor S24  (Upper Changi Rd N)    : "+ stationReading.S24 +"\n" +
+        "Sensor S224 (Changi Airport)       : "+ stationReading.S224 +"\n" +
+        "Sensor S207 (Singapore Expo)       : "+ stationReading.S207 +"\n" +
+        "Sensor S94 (Pasir Ris St 51)       : "+ stationReading.S94 +"\n" +
+        "Sensor S84 (Simei Avenue)          : "+ stationReading.S84 +"\n" +
+
+        "Sensor S212 (Bedok S Road)         : "+ stationReading.S212 +"\n" +
+        "Sensor S208 (Tanah Merah)          : "+ stationReading.S208 +"\n" +
+
+        "Sensor S106 (Pulau Ubin)           : "+ stationReading.S106 +"\n" +
+        "\n\nThank you!";
+    }
+    telebot.sendMessage(chatId, message).catch((err)=>{return;});
 }
 
 async function resetReplied(){
@@ -164,6 +198,7 @@ async function checkRain(){
         if(rainSwitch) return;
         else {
             rainSwitch = true;
+            sendMessage();
             informRain();
         }
     }
@@ -186,5 +221,4 @@ async function checkRain(){
 
 // setInterval(informRain, 3000);
 
-
-
+export {sendSingle};
