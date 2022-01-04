@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    query,
+    orderBy
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import dotenv from "dotenv";
 
@@ -21,3 +31,8 @@ export default app
 
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export const usersCollectionRef = collection(db, "users");
+export const orderedUsersCollectionRef = query(usersCollectionRef, orderBy("timestamp"));
+export const groupsCollectionRef = collection(db, "groups");
+export const orderedGroupsCollectionRef = query(groupsCollectionRef, orderBy("timestamp"));
